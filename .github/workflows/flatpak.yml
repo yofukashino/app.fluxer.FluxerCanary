@@ -1,4 +1,4 @@
-name: Build Flatpak Repo
+name: Flatpak
 
 on:
   push:
@@ -6,50 +6,59 @@ on:
       - main
   workflow_dispatch:
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+permissions:
+  contents: write
 
+jobs:
+  flatter:
+    name: Flatter
+    runs-on: ubuntu-latest
     container:
-      image: ghcr.io/flathub-infra/flatpak-github-actions:freedesktop-25.08
+      image: ghcr.io/andyholmes/flatter/freedesktop:25.08
       options: --privileged
 
     strategy:
       matrix:
-        arch:
-          - x86_64
-          - aarch64
+        arch: [x86_64, aarch64]
+      fail-fast: false
+      # Only one job at a time can use the shared repository cache
+      max-parallel: 1
 
     steps:
+      # Checkout a repository with Flatpak manifests
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      - name: Add Flathub remote
-        run: |
-          flatpak remote-add --user --if-not-exists flathub \
-            https://flathub.org/repo/flathub.flatpakrepo
-
-      - name: Build Flatpak
-        run: |
-          flatpak-builder \
-            --arch=${{ matrix.arch }} \
-            --user \
-            --install-deps-from=flathub \
-            --disable-rofiles-fuse \
-            --disable-updates \
-            --force-clean \
-            --repo=repo \
-            build-dir \
-            app.fluxer.FluxerCanary.yml
-
-      - name: Generate repo metadata
-        run: |
-          flatpak build-update-repo \
-            --generate-static-deltas \
-            repo
-
-      - name: Upload repo artifact
-        uses: actions/upload-artifact@v4
+      # See "Multiple Architectures" below
+      - name: Setup QEMU
+        if: ${{ matrix.arch == 'aarch64' }}
+        id: qemu
+        uses: docker/setup-qemu-action@v2
         with:
-          name: repo-${{ matrix.arch }}
-          path: repo
+          platforms: arm64
+
+      - name: Build
+        uses: andyholmes/flatter@main
+        with:
+          files: |
+            app.fluxer.FluxerCanary.yml
+          arch: ${{ matrix.arch }}
+          upload-bundles: true
+          upload-pages-artifact: ${{ matrix.arch == 'aarch64' }}
+
+  # See "Github Pages" below
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: flatter
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
