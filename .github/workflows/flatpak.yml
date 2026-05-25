@@ -23,12 +23,12 @@ jobs:
 
       - name: Add Flathub repo
         run: |
-          flatpak remote-add --if-not-exists flathub \
+          flatpak --user remote-add --if-not-exists flathub \
             https://flathub.org/repo/flathub.flatpakrepo
 
       - name: Build Flatpak
         run: |
-          flatpak-builder \
+          flatpak-builder --user \
             --repo=repo \
             --force-clean \
             build-dir \
