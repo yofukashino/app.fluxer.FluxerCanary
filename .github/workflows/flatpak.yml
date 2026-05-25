@@ -1,54 +1,54 @@
-name: Build and Deploy Flatpak Repo
+name: Build Flatpak Repo
 
 on:
   push:
     branches:
       - main
-
-permissions:
-  contents: write
+  workflow_dispatch:
 
 jobs:
-  flatpak:
+  build:
     runs-on: ubuntu-latest
+
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:freedesktop-25.08
+
+    strategy:
+      matrix:
+        arch:
+          - x86_64
+          - aarch64
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Flatpak
+      - name: Add Flathub remote
         run: |
-          sudo apt update
-          sudo apt-get install -y flatpak flatpak-builder
-          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+          flatpak remote-add --user --if-not-exists flathub \
+            https://flathub.org/repo/flathub.flatpakrepo
 
       - name: Build Flatpak
         run: |
-          sudo flatpak-builder --install-deps-from=flathub builddir        app.fluxer.FluxerCanary.yml
+          flatpak-builder \
+            --arch=${{ matrix.arch }} \
+            --user \
+            --install-deps-from=flathub \
+            --disable-rofiles-fuse \
+            --disable-updates \
+            --force-clean \
+            --repo=repo \
+            build-dir \
+            app.fluxer.FluxerCanary.yml
 
       - name: Generate repo metadata
         run: |
-          flatpak build-update-repo repo
+          flatpak build-update-repo \
+            --generate-static-deltas \
+            repo
 
-      - name: Create .flatpakrepo file
-        run: |
-          cat > FluxerCanary.flatpakrepo <<EOF
-          [Flatpak Repo]
-          Title=Fluxer Canary
-          Name=fluxer-canary
-          Url=https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/repo
-          Homepage=https://github.com/${{ github.repository }}
-          EOF
-
-      - name: Prepare Pages content
-        run: |
-          mkdir public
-          cp -r repo public/repo
-          cp FluxerCanary.flatpakrepo public/
-
-      - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload repo artifact
+        uses: actions/upload-artifact@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
-          publish_branch: gh-pages
+          name: repo-${{ matrix.arch }}
+          path: repo
