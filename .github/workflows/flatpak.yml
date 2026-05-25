@@ -19,24 +19,12 @@ jobs:
       - name: Install Flatpak
         run: |
           sudo apt update
-          sudo apt install -y flatpak ostree  dbus-x11
-
-      - name: Add Flathub repo
-        run: |
-          flatpak remote-add --user --if-not-exists flathub \
-              https://flathub.org/repo/flathub.flatpakrepo
-          flatpak install --user --assumeyes org.flatpak.Builder
+          sudo apt-get install -y flatpak flatpak-builder
+          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
       - name: Build Flatpak
         run: |
-          flatpak run \
-          --filesystem=$PWD \
-          org.flatpak.Builder \
-          --repo=repo \
-          --force-clean \
-          --install-deps-from=flathub \
-          build-dir \
-          app.fluxer.FluxerCanary.yml
+          sudo flatpak-builder --install-deps-from=flathub builddir        app.fluxer.FluxerCanary.yml
 
       - name: Generate repo metadata
         run: |
