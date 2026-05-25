@@ -19,7 +19,7 @@ jobs:
       - name: Install Flatpak
         run: |
           sudo apt update
-          sudo apt install -y flatpak ostree
+          sudo apt install -y flatpak ostree  dbus-x11
 
       - name: Add Flathub repo
         run: |
