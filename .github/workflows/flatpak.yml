@@ -23,12 +23,12 @@ jobs:
 
       - name: Add Flathub repo
         run: |
-          flatpak --user remote-add --if-not-exists flathub \
-            https://flathub.org/repo/flathub.flatpakrepo
+          sudo flatpak remote-add --if-not-exists flathub \
+              https://flathub.org/repo/flathub.flatpakrepo
 
       - name: Build Flatpak
         run: |
-          flatpak-builder --user \
+          sudo flatpak-builder \
             --repo=repo \
             --force-clean \
             --install-deps-from=flathub \
