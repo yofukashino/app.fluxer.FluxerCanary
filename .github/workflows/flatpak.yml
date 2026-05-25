@@ -1,0 +1,62 @@
+name: Build and Deploy Flatpak Repo
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  flatpak:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Flatpak
+        run: |
+          sudo apt update
+          sudo apt install -y flatpak flatpak-builder ostree
+
+      - name: Add Flathub repo
+        run: |
+          flatpak remote-add --if-not-exists flathub \
+            https://flathub.org/repo/flathub.flatpakrepo
+
+      - name: Build Flatpak
+        run: |
+          flatpak-builder \
+            --repo=repo \
+            --force-clean \
+            build-dir \
+            app.fluxer.FluxerCanary.yml
+
+      - name: Generate repo metadata
+        run: |
+          flatpak build-update-repo repo
+
+      - name: Create .flatpakrepo file
+        run: |
+          cat > FluxerCanary.flatpakrepo <<EOF
+          [Flatpak Repo]
+          Title=Fluxer Canary
+          Name=fluxer-canary
+          Url=https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/repo
+          Homepage=https://github.com/${{ github.repository }}
+          EOF
+
+      - name: Prepare Pages content
+        run: |
+          mkdir public
+          cp -r repo public/repo
+          cp FluxerCanary.flatpakrepo public/
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
