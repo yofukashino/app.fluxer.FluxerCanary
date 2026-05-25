@@ -27,7 +27,7 @@ finish-args:
   - --talk-name=org.kde.StatusNotifierWatcher
   - --talk-name=org.freedesktop.Notifications
 build-options:
-  strip: true
+  strip: false
   append-path: /usr/lib/sdk/node22/bin:/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm22/bin
   env:
     LIBCLANG_PATH: /usr/lib/sdk/llvm22/lib
