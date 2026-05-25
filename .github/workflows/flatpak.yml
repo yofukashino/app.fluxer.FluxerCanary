@@ -32,7 +32,6 @@ jobs:
       - name: Build Flatpak
         run: |
           flatpak-builder \
-            --disable-sandbox \
             --arch=${{ matrix.arch }} \
             --user \
             --install-deps-from=flathub \
