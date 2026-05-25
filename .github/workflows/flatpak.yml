@@ -12,6 +12,7 @@ jobs:
 
     container:
       image: ghcr.io/flathub-infra/flatpak-github-actions:freedesktop-25.08
+      options: --privileged
 
     strategy:
       matrix:
@@ -31,6 +32,7 @@ jobs:
       - name: Build Flatpak
         run: |
           flatpak-builder \
+            --disable-sandbox \
             --arch=${{ matrix.arch }} \
             --user \
             --install-deps-from=flathub \
