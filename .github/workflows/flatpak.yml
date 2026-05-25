@@ -31,6 +31,7 @@ jobs:
           flatpak-builder --user \
             --repo=repo \
             --force-clean \
+            --install-deps-from=flathub \
             build-dir \
             app.fluxer.FluxerCanary.yml
 
