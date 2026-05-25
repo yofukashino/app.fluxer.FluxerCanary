@@ -1,0 +1,112 @@
+id: app.fluxer.FluxerCanary
+runtime: org.freedesktop.Platform
+runtime-version: '25.08'
+sdk: org.freedesktop.Sdk
+base: org.electronjs.Electron2.BaseApp
+base-version: '25.08'
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.node22
+  - org.freedesktop.Sdk.Extension.rust-stable
+  - org.freedesktop.Sdk.Extension.llvm22
+command: app.fluxer.FluxerCanary
+separate-locales: false
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --socket=pulseaudio
+  - --share=network
+  - --device=all
+  - --filesystem=home
+  - --filesystem=xdg-run/pipewire-0:ro
+  - --filesystem=xdg-run/speech-dispatcher:ro
+  - --env=ELECTRON_OZONE_PLATFORM_HINT=auto
+  - --env=XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons
+  - --talk-name=org.ayatana.indicator.application
+  - --talk-name=com.canonical.indicator.application
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --talk-name=org.freedesktop.Notifications
+build-options:
+  strip: true
+  append-path: /usr/lib/sdk/node22/bin:/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm22/bin
+  env:
+    LIBCLANG_PATH: /usr/lib/sdk/llvm22/lib
+modules:
+  # libcbor and libfido2 copied from ch.protonmail.protonmail-bridge.yaml
+  - name: libcbor
+    buildsystem: cmake
+    cleanup:
+      - /include
+      - /lib/pkgconfig
+      - /lib/cmake
+      - /lib/*.a
+    sources:
+      - type: git
+        url: https://github.com/PJK/libcbor
+        tag: v0.14.0
+  - name: libfido2
+    buildsystem: cmake
+    config-opts:
+      - -DBUILD_TESTS=OFF
+      - -DBUILD_EXAMPLES=OFF
+      - -DBUILD_MANPAGES=OFF
+      - -DBUILD_TOOLS=OFF
+      - -DBUILD_STATIC_LIBS=OFF
+    cleanup:
+      - /include
+      - /lib/pkgconfig
+      - /lib/cmake
+    sources:
+      - type: git
+        url: https://github.com/Yubico/libfido2
+        tag: 1.17.0
+  - name: fluxer-canary
+    buildsystem: simple
+    build-options:
+      strip: true
+      prepend-path: /run/build/fluxer-canary/pnpm/bin:/run/build/fluxer-canary/node_modules/.bin
+      env:
+        BUILD_CHANNEL: canary
+        CARGO_HOME: /run/build/fluxer-canary/cargo
+        CARGO_NET_OFFLINE: 'true'
+        NPM_CONFIG_LOGLEVEL: info
+        XDG_CACHE_HOME: /run/build/fluxer-canary/flatpak-node/cache
+        ELECTRON_SKIP_BINARY_DOWNLOAD: 'true'
+        npm_config_nodedir: /usr/lib/sdk/node22
+        npm_config_store_dir: /run/build/fluxer-canary/flatpak-node/pnpm-store
+        npm_config_offline: 'true'
+    build-commands:
+      - ln -s ./pnpm.cjs ./pnpm/bin/pnpm
+      # For disabling automatic detection for pnpm
+      - pnpm install --ignore-scripts --frozen-lockfile --offline --force
+      - pnpm build
+      - |
+        set -eux
+        . ./flatpak-node/electron-builder-arch-args.sh
+        electron-builder --config ./electron-builder.config.cjs --linux --dir $ELECTRON_BUILDER_ARCH_ARGS
+      - mv dist-electron/linux*-unpacked $FLATPAK_DEST/fluxer-canary
+      # Inject the correct Flatpak App ID directly into the Electron archive:
+      - patch-electron-desktop-filename ${FLATPAK_DEST}/fluxer-canary/resources/app.asar
+      - install -Dm755 ${FLATPAK_ID}.sh ${FLATPAK_DEST}/bin/${FLATPAK_ID}
+      - install -Dm644 packaging/linux/${FLATPAK_ID}.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+      - install -Dm644 packaging/linux/${FLATPAK_ID}.metainfo.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
+      - install -Dm644 packaging/linux/${FLATPAK_ID}.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
+    sources:
+      - type: archive
+        url: https://web.fluxer.app/api/dl/desktop/source/latest?commit=c2c43ad470d421d136b8673f300894edbe9c292d
+        dest-filename: fluxer_desktop_source.tar.gz
+        sha256: 78b36b132abff577540dd0ec33cc1305d7cc2ce9daf128b3519e026bbdb3b568
+        x-checker-data:
+          type: json
+          url: https://api.fluxer.app/dl/desktop/source/latest/sha256
+          url-query: .url + "?commit=" + .commit
+          sha256-query: .sha256
+          version-query: .desktop_version
+      - type: file
+        path: app.fluxer.FluxerCanary.sh
+      - type: archive
+        url: https://registry.npmjs.org/pnpm/-/pnpm-10.25.0.tgz
+        sha512: 5e82639027af37cf832061bcc6d639c219634488e0f2baebe785028a793de7b525ffcd3f7ff574f5e9860654e098fe852ba8ac5dd5cefe1767d23a020a92f501
+        dest: pnpm
+      - pnpm-sources.json
+      - cargo-sources.json
