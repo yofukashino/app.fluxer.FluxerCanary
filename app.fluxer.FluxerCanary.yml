@@ -93,9 +93,9 @@ modules:
       - install -Dm644 packaging/linux/${FLATPAK_ID}.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
     sources:
       - type: archive
-        url: https://web.fluxer.app/api/dl/desktop/source/latest?commit=54167ade6d3d84c9b3b02c06f105072bd7b2cf31
+        url: https://web.fluxer.app/api/dl/desktop/source/latest?commit=08bde1815fbbaae7c9c29cfafa910f664bd70552
         dest-filename: fluxer_desktop_source.tar.gz
-        sha256: 95482cd2bfe89441fca549677a2a76bbd6f183753c1d6d77c308957ac467c4e9
+        sha256: 38bdc6f0014c56fde70c053120cb024fadd872aaa2bb5ba0f76aeb22697259f5
         x-checker-data:
           type: json
           url: https://api.fluxer.app/dl/desktop/source/latest/sha256
