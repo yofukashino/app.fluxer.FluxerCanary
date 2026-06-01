@@ -49,6 +49,7 @@ jobs:
       - name: Install runtimes (x86_64)
         if: ${{ matrix.arch == 'x86_64' }}
         run: |
+          tdnf install -y unzip
           flatpak install --noninteractive  org.freedesktop.Sdk/x86_64/25.08
           flatpak install --noninteractive org.electronjs.Electron2.BaseApp/x86_64/25.08
           flatpak install --noninteractive org.freedesktop.Sdk.Extension.node22/x86_64/25.08
