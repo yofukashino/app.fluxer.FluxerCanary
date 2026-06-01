@@ -12,7 +12,7 @@ permissions:
 jobs:
   flatter:
     name: Flatter
-    runs-on: ${{ matrix.arch == 'aarch64' && 'ubuntu-24.04-arm' || 'ubuntu-latest' }}
+    runs-on: ${{ matrix.arch == 'aarch64' && 'ubuntu-22.04-arm' || 'ubuntu-22.04' }}
     container:
       image: ghcr.io/andyholmes/flatter/freedesktop:25.08
       options: --privileged
@@ -36,10 +36,6 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
-
-      - name: APT Install
-        run: |
-          sudo apt-get install -y unzip
 
       - name: Install runtimes (aarch64)
         if: ${{ matrix.arch == 'aarch64' }}
