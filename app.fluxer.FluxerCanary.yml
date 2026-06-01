@@ -77,7 +77,7 @@ modules:
         npm_config_store_dir: /run/build/fluxer-canary/flatpak-node/pnpm-store
         npm_config_offline: "true"
     build-commands:
-      - bsdunzip webrtc-linux.zip
+      - bsdunzip -d webrtc-linux webrtc-linux.zip && mv ./webrtc-linux/linux-*-release/* ./webrtc-linux/
       - ln -s ./pnpm.cjs ./pnpm/bin/pnpm
       # For disabling automatic detection for pnpm
       - pnpm install --ignore-scripts --frozen-lockfile --offline --force
