@@ -37,10 +37,15 @@ jobs:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
+      - name: APT Update/Install
+        run: |
+          sudo apt update
+          sudo apt -y install unzip
+
       - name: Install runtimes (aarch64)
         if: ${{ matrix.arch == 'aarch64' }}
         run: |
-          flatpak install --noninteractive  org.freedesktop.Sdk/aarch64/25.08
+          flatpak install --noniif it was on flathub I wouldnt have to deal with this atleastnteractive  org.freedesktop.Sdk/aarch64/25.08
           flatpak install --noninteractive org.electronjs.Electron2.BaseApp/aarch64/25.08
           flatpak install --noninteractive org.freedesktop.Sdk.Extension.node22/aarch64/25.08
           flatpak install --noninteractive org.freedesktop.Sdk.Extension.rust-stable/aarch64/25.08
