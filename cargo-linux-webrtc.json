@@ -1,0 +1,22 @@
+[
+  {
+    "type": "file",
+    "url": "https://github.com/livekit/rust-sdks/releases/download/webrtc-51ef663/webrtc-linux-arm64-release.zip",
+    "strip-components": 1,
+    "sha512": "f4d8961788ca538c32d72206dff303d0c3e232d565b86517a542013be3c65217beaf39838df03e16716390ebad5d05fe0f851a74db7e1dc99be1465e4371d47e",
+    "dest": "webrtc-linux.zip",
+    "only-arches": [
+      "aarch64"
+    ]
+  },
+  {
+    "type": "file",
+    "url": "https://github.com/livekit/rust-sdks/releases/download/webrtc-51ef663/webrtc-linux-x64-release.zip",
+    "strip-components": 1,
+    "sha512": "865f567f442de799f802e14439999d783eb03bf9d9b37a785e751de8787464645a69a0f5d649cbf298f5118757b3b8962fbf7f753bcd4653ce445c920ff7c710",
+    "dest": "webrtc-linux.zip",
+    "only-arches": [
+      "x86_64"
+    ]
+  }
+]
