@@ -67,7 +67,7 @@ modules:
       prepend-path: /run/build/fluxer-canary/pnpm/bin:/run/build/fluxer-canary/node_modules/.bin
       env:
         BUILD_CHANNEL: canary
-        LK_CUSTOM_WEBRTC: webrtc-linux.zip
+        LK_CUSTOM_WEBRTC: /run/build/fluxer-canary/webrtc-linux
         CARGO_HOME: /run/build/fluxer-canary/cargo
         CARGO_NET_OFFLINE: "true"
         NPM_CONFIG_LOGLEVEL: info
