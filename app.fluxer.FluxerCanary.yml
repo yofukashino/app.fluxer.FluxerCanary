@@ -37,7 +37,7 @@ modules:
     buildsystem: simple
     build-options:
       strip: true
-      prepend-path: /run/build/fluxer-canary/pnpm/bin:/run/build/fluxer-canary/fluxer_desktop/node_modules/.bin
+      prepend-path: /run/build/fluxer-canary/pnpm/bin
       env:
         BUILD_CHANNEL: canary
         LK_CUSTOM_WEBRTC: /run/build/fluxer-canary/webrtc-linux
@@ -56,7 +56,7 @@ modules:
       - pnpm install --ignore-scripts --frozen-lockfile --offline --force
       - |
         set -eux
-        . ../flatpak-node/electron-builder-arch-args.sh
+        . ./flatpak-node/electron-builder-arch-args.sh
         pnpm dev:desktop:package $ELECTRON_BUILDER_ARCH_ARGS
       - mv fluxer-desktop/dist-electron/linux*-unpacked $FLATPAK_DEST/fluxer-canary
       - mv $FLATPAK_DEST/fluxer-canary/fluxer_desktop_canary $FLATPAK_DEST/fluxer-canary/fluxer-canary
