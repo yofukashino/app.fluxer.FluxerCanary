@@ -49,18 +49,17 @@ modules:
         npm_config_nodedir: /usr/lib/sdk/node22
         npm_config_store_dir: /run/build/fluxer-canary/flatpak-node/pnpm-store
         npm_config_offline: "true"
-    subdir: fluxer_desktop
     build-commands:
-      - bsdunzip -d webrtc-linux ../webrtc-linux.zip && mv ./webrtc-linux/linux-*-release/* ./webrtc-linux/
-      - ln -s ./pnpm.cjs ../pnpm/bin/pnpm
+      - bsdunzip -d webrtc-linux ./webrtc-linux.zip && mv ./webrtc-linux/linux-*-release/* ./webrtc-linux/
+      - ln -s ./pnpm.cjs ./pnpm/bin/pnpm
       # For disabling automatic detection for pnpm
       - pnpm install --ignore-scripts --frozen-lockfile --offline --force
-      - pnpm build
       - |
         set -eux
         . ../flatpak-node/electron-builder-arch-args.sh
-        electron-builder --config ./electron-builder.config.cjs --linux --dir $ELECTRON_BUILDER_ARCH_ARGS
-      - mv dist-electron/linux*-unpacked $FLATPAK_DEST/fluxer-canary
+        pnpm dev:desktop:package $ELECTRON_BUILDER_ARCH_ARGS
+      - mv fluxer-desktop/dist-electron/linux*-unpacked $FLATPAK_DEST/fluxer-canary
+      - mv $FLATPAK_DEST/fluxer-canary/fluxer_desktop_canary $FLATPAK_DEST/fluxer-canary/fluxer-canary
       # Inject the correct Flatpak App ID directly into the Electron archive:
       - patch-electron-desktop-filename ${FLATPAK_DEST}/fluxer-canary/resources/app.asar
       - install -Dm755 ${FLATPAK_ID}.sh ${FLATPAK_DEST}/bin/${FLATPAK_ID}
@@ -74,7 +73,6 @@ modules:
         disable-submodules: true
       - type: file
         path: app.fluxer.FluxerCanary.sh
-        dest: fluxer_desktop
       - type: archive
         url: https://registry.npmjs.org/pnpm/-/pnpm-10.25.0.tgz
         sha512: 5e82639027af37cf832061bcc6d639c219634488e0f2baebe785028a793de7b525ffcd3f7ff574f5e9860654e098fe852ba8ac5dd5cefe1767d23a020a92f501
