@@ -14,7 +14,7 @@ jobs:
     name: Flatter
     runs-on: ${{ matrix.arch == 'aarch64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
     container:
-      image: ghcr.io/andyholmes/flatter/freedesktop:25.08
+      image: ghcr.io/andyholmes/flatter/workbench:master
       options: --privileged
 
     strategy:
