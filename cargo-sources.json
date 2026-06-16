@@ -7826,12 +7826,6 @@
     "dest": "cargo/vendor/zvariant_utils-3.4.0"
   },
   {
-    "type": "shell",
-    "commands": [
-      "cp -r --reflink=auto \"flatpak-cargo/git/deepfilternet-978576a/libDF\" \"cargo/vendor/deep_filter\""
-    ]
-  },
-  {
     "type": "git",
     "url": "https://github.com/rikorose/deepfilternet",
     "commit": "978576aa8400552a4ce9730838c635aa30db5e61",
@@ -14556,6 +14550,12 @@
     "contents": "{\"package\": null, \"files\": {}}",
     "dest": "cargo/vendor/deep_filter",
     "dest-filename": ".cargo-checksum.json"
+  },
+  {
+    "type": "shell",
+    "commands": [
+      "cp -r --reflink=auto \"flatpak-cargo/git/deepfilternet-978576a/libDF\" \"cargo/vendor/deep_filter\""
+    ]
   },
   {
     "type": "inline",
