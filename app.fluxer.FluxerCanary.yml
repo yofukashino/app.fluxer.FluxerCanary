@@ -50,9 +50,6 @@ modules:
         npm_config_store_dir: /run/build/fluxer-canary/flatpak-node/pnpm-store
         npm_config_offline: "true"
     build-commands:
-      - bsdunzip -d webrtc-linux ./webrtc-linux.zip && mv ./webrtc-linux/linux-*-release/* ./webrtc-linux/
-      - ln -s ./pnpm.cjs ./pnpm/bin/pnpm
-      # For disabling automatic detection for pnpm
       - pnpm install --ignore-scripts --frozen-lockfile --offline --force
       - |
         set -eux
@@ -73,10 +70,7 @@ modules:
         disable-submodules: true
       - type: file
         path: app.fluxer.FluxerCanary.sh
-      - type: archive
-        url: https://registry.npmjs.org/pnpm/-/pnpm-10.25.0.tgz
-        sha512: 5e82639027af37cf832061bcc6d639c219634488e0f2baebe785028a793de7b525ffcd3f7ff574f5e9860654e098fe852ba8ac5dd5cefe1767d23a020a92f501
-        dest: pnpm
+      - pnpm.json
       - pnpm-sources.json
       - cargo-sources.json
       - cargo-linux-webrtc.json
