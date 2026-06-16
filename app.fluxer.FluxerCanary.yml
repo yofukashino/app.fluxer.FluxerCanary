@@ -55,7 +55,7 @@ modules:
         set -eux
         . ./flatpak-node/electron-builder-arch-args.sh
         pnpm dev:desktop:package $ELECTRON_BUILDER_ARCH_ARGS
-      - mv fluxer-desktop/dist-electron/linux*-unpacked $FLATPAK_DEST/fluxer-canary
+      - mv fluxer_desktop/dist-electron/linux*-unpacked $FLATPAK_DEST/fluxer-canary
       - mv $FLATPAK_DEST/fluxer-canary/fluxer_desktop_canary $FLATPAK_DEST/fluxer-canary/fluxer-canary
       # Inject the correct Flatpak App ID directly into the Electron archive:
       - patch-electron-desktop-filename ${FLATPAK_DEST}/fluxer-canary/resources/app.asar
