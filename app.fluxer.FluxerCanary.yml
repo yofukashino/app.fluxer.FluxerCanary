@@ -39,6 +39,7 @@ modules:
       strip: true
       prepend-path: /run/build/fluxer-canary/pnpm/bin
       env:
+        VERSION: 2026.602.31138
         BUILD_CHANNEL: canary
         LK_CUSTOM_WEBRTC: /run/build/fluxer-canary/webrtc-linux
         CARGO_HOME: /run/build/fluxer-canary/cargo
@@ -50,6 +51,7 @@ modules:
         npm_config_store_dir: /run/build/fluxer-canary/flatpak-node/pnpm-store
         npm_config_offline: "true"
     build-commands:
+      - echo $(jq '.version = $v' --arg v "$VERSION" ./fluxer_desktop/package.json) > ./fluxer_desktop/package.json
       - pnpm install --ignore-scripts --frozen-lockfile --offline --force
       - |
         set -eux
@@ -60,9 +62,9 @@ modules:
       # Inject the correct Flatpak App ID directly into the Electron archive:
       - patch-electron-desktop-filename ${FLATPAK_DEST}/fluxer-canary/resources/app.asar
       - install -Dm755 ${FLATPAK_ID}.sh ${FLATPAK_DEST}/bin/${FLATPAK_ID}
-      - install -Dm644 packaging/linux/${FLATPAK_ID}.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
-      - install -Dm644 packaging/linux/${FLATPAK_ID}.metainfo.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
-      - install -Dm644 packaging/linux/${FLATPAK_ID}.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
+      - install -Dm644 fluxer_desktop/packaging/linux/${FLATPAK_ID}.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+      - install -Dm644 fluxer_desktop/packaging/linux/${FLATPAK_ID}.metainfo.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
+      - install -Dm644 fluxer_desktop/packaging/linux/${FLATPAK_ID}.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
     sources:
       - type: git
         url: https://github.com/fluxerapp/fluxer.git
