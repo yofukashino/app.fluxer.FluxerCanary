@@ -39,7 +39,6 @@ modules:
       strip: true
       prepend-path: /run/build/fluxer-canary/pnpm/bin
       env:
-        VERSION: 2026.602.31138
         BUILD_CHANNEL: canary
         LK_CUSTOM_WEBRTC: /run/build/fluxer-canary/webrtc-linux
         CARGO_HOME: /run/build/fluxer-canary/cargo
@@ -51,7 +50,11 @@ modules:
         npm_config_store_dir: /run/build/fluxer-canary/flatpak-node/pnpm-store
         npm_config_offline: "true"
     build-commands:
-      - echo $(jq '.version = $v' --arg v "$VERSION" ./fluxer_desktop/package.json) > ./fluxer_desktop/package.json
+      - |
+        export VERSION="$(git describe --tags --exact-match)"
+        cd fluxer_desktop
+        cargo run --locked --quiet \
+        --manifest-path ../tools/ci/Cargo.toml -- build-desktop --step update_version
       - pnpm install --ignore-scripts --frozen-lockfile --offline --force
       - |
         set -eux
@@ -68,8 +71,13 @@ modules:
     sources:
       - type: git
         url: https://github.com/fluxerapp/fluxer.git
-        commit: fa3e8525755dae087c03ceaf83b814cbe46c7228
         disable-submodules: true
+        tag: 2026.630.20736
+        commit: 79c79b16e6785f1e1b0f3475d7814bbaceb83813
+        x-checker-data:
+          type: git
+          is-main-source: true
+          tag-pattern: ^([\d.]+)$
       - type: file
         path: app.fluxer.FluxerCanary.sh
       - pnpm.json
