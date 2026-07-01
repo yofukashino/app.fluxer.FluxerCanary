@@ -36,7 +36,10 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
-
+          
+      - name: Install unzip
+        run: dnf install -y unzip
+        
       - name: Install runtimes (aarch64)
         if: ${{ matrix.arch == 'aarch64' }}
         run: |
@@ -54,7 +57,7 @@ jobs:
           flatpak install --noninteractive org.freedesktop.Sdk.Extension.node22/x86_64/25.08
           flatpak install --noninteractive org.freedesktop.Sdk.Extension.rust-stable/x86_64/25.08
           flatpak install --noninteractive org.freedesktop.Sdk.Extension.llvm22/x86_64/25.08
-
+      
       - name: Build
         uses: andyholmes/flatter@main
         with:

@@ -2,7 +2,7 @@ name: Data checker
 
 on:
   schedule:
-    - cron: "0 * * * *"
+    - cron: "0 23 * * *"
   workflow_dispatch:
 
 permissions:
