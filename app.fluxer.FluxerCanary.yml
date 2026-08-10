@@ -68,8 +68,8 @@ modules:
       - type: git
         url: https://github.com/fluxerapp/fluxer.git
         disable-submodules: true
-        tag: 2026.806.190827
-        commit: 873c203b5d56a74103c0fca8c513677cc14894c8
+        tag: 2026.810.212543
+        commit: 6e66c92dcada7f7e3a01fac1671925762a701e47
         x-checker-data:
           type: git
           is-main-source: true
