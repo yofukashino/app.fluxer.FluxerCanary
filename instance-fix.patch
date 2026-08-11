@@ -1,0 +1,35 @@
+diff --git a/fluxer_desktop/src/main/IpcHandlers.ts b/fluxer_desktop/src/main/IpcHandlers.ts
+index 62bac2c2..8abd851e 100644
+--- a/fluxer_desktop/src/main/IpcHandlers.ts
++++ b/fluxer_desktop/src/main/IpcHandlers.ts
+@@ -71,6 +71,7 @@ import {
+ 	focusVoicePopoutWindow,
+ 	getActiveAllowTransparency,
+ 	getActiveUseNativeTitleBar,
++	getElectronLoadErrorCode,
+ 	getMainWindow,
+ 	setThemeStudioPopoutAlwaysOnTop,
+ 	setVoicePopoutAlwaysOnTop,
+@@ -232,6 +233,9 @@ export function registerIpcHandlers(): void {
+ 		try {
+ 			await mainWindow.loadURL(instanceOrigin);
+ 		} catch (error) {
++			if (getElectronLoadErrorCode(error) === -3) {
++				return;
++			}
+ 			setCustomAppUrl(null);
+ 			pendingDesktopHandoffCode = null;
+ 			const detail = error instanceof Error ? error.message : String(error);
+diff --git a/fluxer_desktop/src/main/Window.ts b/fluxer_desktop/src/main/Window.ts
+index 9b813856..5c901105 100644
+--- a/fluxer_desktop/src/main/Window.ts
++++ b/fluxer_desktop/src/main/Window.ts
+@@ -88,7 +88,7 @@ function shouldRetryAppLoadFailure(errorCode: number): boolean {
+ 	return errorCode < 0 && errorCode !== -3;
+ }
+ 
+-function getElectronLoadErrorCode(error: unknown): number | null {
++export function getElectronLoadErrorCode(error: unknown): number | null {
+ 	const message = error instanceof Error ? error.message : String(error);
+ 	const match = /\(([-\d]+)\)/.exec(message);
+ 	if (!match) return null;
