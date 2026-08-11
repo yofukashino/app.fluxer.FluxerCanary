@@ -14554,8 +14554,8 @@
   {
     "type": "shell",
     "commands": [
-      "cp -r --reflink=auto flatpak-cargo/git/deepfilternet-978576a/libDF/* cargo/vendor/deep_filter",
-      "cp -r flatpak-cargo/git/deepfilternet-978576a/models cargo/vendor"
+      "cp -r --reflink=auto flatpak-cargo/git/deepfilternet-*/libDF/* cargo/vendor/deep_filter",
+      "cp -r flatpak-cargo/git/deepfilternet-*/models cargo/vendor"
     ]
   },
   {
