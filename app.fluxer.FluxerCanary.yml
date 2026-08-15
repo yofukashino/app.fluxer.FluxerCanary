@@ -1,9 +1,9 @@
 id: app.fluxer.FluxerCanary
 runtime: org.freedesktop.Platform
-runtime-version: '25.08'
+runtime-version: "25.08"
 sdk: org.freedesktop.Sdk
 base: org.electronjs.Electron2.BaseApp
-base-version: '25.08'
+base-version: "25.08"
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.node24
   - org.freedesktop.Sdk.Extension.rust-stable
@@ -42,19 +42,19 @@ modules:
         BUILD_CHANNEL: canary
         LK_CUSTOM_WEBRTC: /run/build/fluxer-canary/webrtc-linux
         CARGO_HOME: /run/build/fluxer-canary/cargo
-        CARGO_NET_OFFLINE: 'true'
+        CARGO_NET_OFFLINE: "true"
         NPM_CONFIG_LOGLEVEL: info
         XDG_CACHE_HOME: /run/build/fluxer-canary/flatpak-node/cache
-        ELECTRON_SKIP_BINARY_DOWNLOAD: 'true'
+        ELECTRON_SKIP_BINARY_DOWNLOAD: "true"
         npm_config_nodedir: /usr/lib/sdk/node24
         npm_config_store_dir: /run/build/fluxer-canary/flatpak-node/pnpm-store
-        npm_config_offline: 'true'
+        npm_config_offline: "true"
     build-commands:
       - pnpm install --ignore-scripts --frozen-lockfile --offline --force
       - |
         set -eux
         . ./flatpak-node/electron-builder-arch-args.sh        
-        export VERSION="$(git describe --tags --exact-match)"
+        export VERSION="${$(git describe --tags --exact-match)##*@}"
         cd fluxer_desktop       
         pnpm build 
         pnpm exec electron-builder --dir --config electron-builder.config.cjs $ELECTRON_BUILDER_ARCH_ARGS
@@ -70,12 +70,12 @@ modules:
       - type: git
         url: https://github.com/fluxerapp/fluxer.git
         disable-submodules: true
-        tag: 2026.814.180334
-        commit: beb906753fe0de6db2d2775bdfd593c3f7c581c4
+        tag: fluxer-desktop-canary@2026.815.125342
+        commit: 2bb4c92f2b44c0834ce3fae400c713ec69b5e8cb
         x-checker-data:
           type: git
           is-main-source: true
-          tag-pattern: ^([\d.]+)$
+          tag-pattern: fluxer-desktop-canary@([\d.]+)$
       - type: patch
         path: instance-fix.patch
       - type: file
