@@ -54,7 +54,7 @@ modules:
       - |
         set -eux
         . ./flatpak-node/electron-builder-arch-args.sh        
-        export VERSION="${$(git describe --tags --exact-match)##*@}"
+        export VERSION="$(git describe --tags --exact-match | cut -d@ -f2)"
         cd fluxer_desktop       
         pnpm build 
         pnpm exec electron-builder --dir --config electron-builder.config.cjs $ELECTRON_BUILDER_ARCH_ARGS
