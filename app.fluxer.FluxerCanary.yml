@@ -76,8 +76,6 @@ modules:
           type: git
           is-main-source: true
           tag-pattern: fluxer-desktop-canary@([\d.]+)$
-      - type: patch
-        path: instance-fix.patch
       - type: file
         path: app.fluxer.FluxerCanary.sh
       - pnpm.json
