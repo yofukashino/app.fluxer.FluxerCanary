@@ -1,0 +1,13 @@
+diff --git a/fluxer_desktop/electron-builder.config.cjs b/fluxer_desktop/electron-builder.config.cjs
+index 3b48c23b..8c14cba1 100644
+--- a/fluxer_desktop/electron-builder.config.cjs
++++ b/fluxer_desktop/electron-builder.config.cjs
+@@ -14,7 +14,7 @@ const packageName = isCanary ? 'fluxer_desktop_canary' : 'fluxer_desktop';
+ const linuxPackageName = isCanary ? 'fluxer-canary' : 'fluxer';
+ const linuxDesktopActionIds = ['open-settings', 'new-dm'];
+ const linuxDesktopActionList = `${linuxDesktopActionIds.join(';')};`;
+-const linuxGlibcBaseline = Object.freeze({major: 2, minor: 35, patch: 0, name: 'GLIBC_2.35'});
++const linuxGlibcBaseline = Object.freeze({major: 2, minor: 42, patch: 0, name: 'GLIBC_2.42'});
+ const rpmBuildIdFilePrefix = '/usr/lib/.build-id';
+ const rpmBuildIdLinkFpmArgs = [
+ 	'--rpm-rpmbuild-define',

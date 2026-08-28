@@ -78,6 +78,8 @@ modules:
           tag-pattern: fluxer-desktop-canary@([\d.]+)$
       - type: file
         path: app.fluxer.FluxerCanary.sh
+      - type: patch
+        path: glibc.patch
       - pnpm.json
       - pnpm-sources.json
       - cargo-sources.json
