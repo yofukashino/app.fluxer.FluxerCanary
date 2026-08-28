@@ -70,16 +70,14 @@ modules:
       - type: git
         url: https://github.com/fluxerapp/fluxer.git
         disable-submodules: true
-        tag: fluxer-desktop-canary@2026.827.224029
-        commit: 026ace67475d1ae194cfcee5ef2dfeb6b47d8a39
+        tag: fluxer-desktop-canary@2026.828.141115
+        commit: dc230926a42fab5675c6fba73af2729d14c6db53
         x-checker-data:
           type: git
           is-main-source: true
           tag-pattern: fluxer-desktop-canary@([\d.]+)$
       - type: file
         path: app.fluxer.FluxerCanary.sh
-      - type: patch
-        path: glibc.patch
       - pnpm.json
       - pnpm-sources.json
       - cargo-sources.json
