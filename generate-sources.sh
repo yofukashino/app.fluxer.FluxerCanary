@@ -4,6 +4,11 @@ set -euo pipefail
 
 CUR_DIR="$PWD"
 
+COMMIT=$(awk '
+  /url: https:\/\/github\.com\/fluxerapp\/fluxer\.git$/ { found=1; next }
+  found && /^[[:space:]]*commit:/ { print $2; exit }
+  found && /^[[:space:]]*- / { exit }
+' "$CUR_DIR/app.fluxer.FluxerCanary.yml")
 SOURCE_URL="https://github.com/fluxerapp/fluxer"
 
 WORKDIR="$(mktemp -d -t fluxer-flatpak-XXXXXX)"
@@ -14,7 +19,9 @@ python -m venv venv
 
 source ./venv/bin/activate
 
-git clone $SOURCE_URL
+git clone $SOURCE_URL fluxer
+
+git -C fluxer checkout "$COMMIT"
 
 cd "./fluxer"
 
