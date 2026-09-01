@@ -3915,9 +3915,9 @@
   {
     "type": "archive",
     "archive-type": "tar-gzip",
-    "url": "https://static.crates.io/crates/rtrb/rtrb-0.3.4.crate",
-    "sha256": "4ade083ccbb4bf536df69d1f6432cc23deb7acccff86b183f3923a6fd56a1153",
-    "dest": "cargo/vendor/rtrb-0.3.4"
+    "url": "https://static.crates.io/crates/rtrb/rtrb-0.3.5.crate",
+    "sha256": "fae8ee26b0371a29a77d2b2d6b3ae13aa81def6f9bf1b1b92a32d279a5e709b7",
+    "dest": "cargo/vendor/rtrb-0.3.5"
   },
   {
     "type": "archive",
@@ -7788,12 +7788,6 @@
   },
   {
     "type": "inline",
-    "contents": "{\"package\": \"4ade083ccbb4bf536df69d1f6432cc23deb7acccff86b183f3923a6fd56a1153\", \"files\": {}}",
-    "dest": "cargo/vendor/rtrb-0.3.4",
-    "dest-filename": ".cargo-checksum.json"
-  },
-  {
-    "type": "inline",
     "contents": "{\"package\": \"4b45fcc2344c680f5025fe57779faef368840d0bd1f42f216291f0dc4ace4744\", \"files\": {}}",
     "dest": "cargo/vendor/proptest-1.11.0",
     "dest-filename": ".cargo-checksum.json"
@@ -11510,6 +11504,12 @@
     "type": "inline",
     "contents": "{\"package\": \"fad3cd6df81292728e2a8cb1f1dcb4d7e7a1ab59b80c14fbbcba2baf9d5cf86a\", \"files\": {}}",
     "dest": "cargo/vendor/async-nats-0.49.1",
+    "dest-filename": ".cargo-checksum.json"
+  },
+  {
+    "type": "inline",
+    "contents": "{\"package\": \"fae8ee26b0371a29a77d2b2d6b3ae13aa81def6f9bf1b1b92a32d279a5e709b7\", \"files\": {}}",
+    "dest": "cargo/vendor/rtrb-0.3.5",
     "dest-filename": ".cargo-checksum.json"
   },
   {
