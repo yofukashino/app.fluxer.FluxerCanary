@@ -2,6 +2,14 @@ name: native-dependencies
 buildsystem: simple
 build-commands: []
 modules:
+  - name: fakepid
+    buildsystem: simple
+    build-commands:
+      - cc -shared -fPIC -O2 fake-getpid.c -o libfakepid.so -ldl
+      - install -Dm755 libfakepid.so /app/lib/libfakepid.so
+    sources:
+      - type: file
+        path: fake-getpid.c
   - name: libcbor
     buildsystem: cmake
     cleanup:

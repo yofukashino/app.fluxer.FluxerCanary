@@ -1,9 +1,9 @@
 id: app.fluxer.FluxerCanary
 runtime: org.freedesktop.Platform
-runtime-version: '25.08'
+runtime-version: "25.08"
 sdk: org.freedesktop.Sdk
 base: org.electronjs.Electron2.BaseApp
-base-version: '25.08'
+base-version: "25.08"
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.node24
   - org.freedesktop.Sdk.Extension.rust-stable
@@ -26,6 +26,7 @@ finish-args:
   - --talk-name=com.canonical.indicator.application
   - --talk-name=org.kde.StatusNotifierWatcher
   - --talk-name=org.freedesktop.Notifications
+  - --own-name=org.kde.StatusNotifierItem-114138-1
 build-options:
   strip: true
   append-path: /usr/lib/sdk/node24/bin:/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm22/bin
@@ -42,13 +43,13 @@ modules:
         BUILD_CHANNEL: canary
         LK_CUSTOM_WEBRTC: /run/build/fluxer-canary/webrtc-linux
         CARGO_HOME: /run/build/fluxer-canary/cargo
-        CARGO_NET_OFFLINE: 'true'
+        CARGO_NET_OFFLINE: "true"
         NPM_CONFIG_LOGLEVEL: info
         XDG_CACHE_HOME: /run/build/fluxer-canary/flatpak-node/cache
-        ELECTRON_SKIP_BINARY_DOWNLOAD: 'true'
+        ELECTRON_SKIP_BINARY_DOWNLOAD: "true"
         npm_config_nodedir: /usr/lib/sdk/node24
         npm_config_store_dir: /run/build/fluxer-canary/flatpak-node/pnpm-store
-        npm_config_offline: 'true'
+        npm_config_offline: "true"
     build-commands:
       - pnpm install --ignore-scripts --frozen-lockfile --offline --force
       - |
