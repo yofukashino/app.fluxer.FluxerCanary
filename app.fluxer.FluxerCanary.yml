@@ -1,9 +1,9 @@
 id: app.fluxer.FluxerCanary
 runtime: org.freedesktop.Platform
-runtime-version: "25.08"
+runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 base: org.electronjs.Electron2.BaseApp
-base-version: "25.08"
+base-version: '25.08'
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.node24
   - org.freedesktop.Sdk.Extension.rust-stable
@@ -43,13 +43,13 @@ modules:
         BUILD_CHANNEL: canary
         LK_CUSTOM_WEBRTC: /run/build/fluxer-canary/webrtc-linux
         CARGO_HOME: /run/build/fluxer-canary/cargo
-        CARGO_NET_OFFLINE: "true"
+        CARGO_NET_OFFLINE: 'true'
         NPM_CONFIG_LOGLEVEL: info
         XDG_CACHE_HOME: /run/build/fluxer-canary/flatpak-node/cache
-        ELECTRON_SKIP_BINARY_DOWNLOAD: "true"
+        ELECTRON_SKIP_BINARY_DOWNLOAD: 'true'
         npm_config_nodedir: /usr/lib/sdk/node24
         npm_config_store_dir: /run/build/fluxer-canary/flatpak-node/pnpm-store
-        npm_config_offline: "true"
+        npm_config_offline: 'true'
     build-commands:
       - pnpm install --ignore-scripts --frozen-lockfile --offline --force
       - |
@@ -71,8 +71,8 @@ modules:
       - type: git
         url: https://github.com/fluxerapp/fluxer.git
         disable-submodules: true
-        tag: fluxer-desktop-canary@2026.904.135113
-        commit: bc7f701e876fde99ecd5088152981015bd823484
+        tag: fluxer-desktop-canary@2026.909.202036
+        commit: 167862a8a6a52d100c5d4e4a64ee6d10859b16ef
         x-checker-data:
           type: git
           is-main-source: true
