@@ -71,8 +71,8 @@ modules:
       - type: git
         url: https://github.com/fluxerapp/fluxer.git
         disable-submodules: true
-        tag: fluxer-desktop-canary@2026.909.202036
-        commit: 167862a8a6a52d100c5d4e4a64ee6d10859b16ef
+        tag: fluxer-desktop-canary@2026.911.113656
+        commit: bcef7b312376d63157e0133086c9d5595a7aa5af
         x-checker-data:
           type: git
           is-main-source: true
