@@ -1,8 +1,8 @@
 [
     {
         "type": "archive",
-        "url": "https://registry.npmjs.org/pnpm/-/pnpm-10.29.3.tgz",
-        "sha512": "498e1fb4cca5aa06c1dcf2611e6fafc50972ffe7189998c409e90de74566444298ffe43e6cd2acdc775ba1aa7cc5e092a8b7054c811ba8c5770f84693d33d2dc",
+        "url": "https://registry.npmjs.org/pnpm/-/pnpm-12.4.2.tgz",
+        "sha512": "08adc6613180275c7c9edada39dcf08c9c61ad4e7eaf330a4f3461f102b0f907423454d117f98e72d47fef0616070644d7bffc973a6a57f5090a6d7c368b07c9",
         "dest": "pnpm"
     },
     {
