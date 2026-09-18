@@ -8,7 +8,7 @@
     {
         "type": "shell",
         "commands": [
-            "ln -s ./pnpm.cjs ./pnpm"
+            "ln -s ./pnpm.mjs ./pnpm"
         ],
         "dest": "pnpm/bin"
     }
