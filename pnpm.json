@@ -8,6 +8,7 @@
     {
         "type": "shell",
         "commands": [
+            "chmod +x *",
             "ln -s ./pnpm.mjs ./pnpm"
         ],
         "dest": "pnpm/bin"
