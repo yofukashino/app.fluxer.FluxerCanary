@@ -1,16 +1,20 @@
 [
     {
         "type": "archive",
-        "url": "https://registry.npmjs.org/pnpm/-/pnpm-12.4.2.tgz",
-        "sha512": "08adc6613180275c7c9edada39dcf08c9c61ad4e7eaf330a4f3461f102b0f907423454d117f98e72d47fef0616070644d7bffc973a6a57f5090a6d7c368b07c9",
-        "dest": "pnpm"
+        "url": "https://registry.npmjs.org/@pnpm/exe.linux-x64/-/exe.linux-x64-12.4.2.tgz",
+        "sha512": "fe96edd145536bc34c0e1cce58b4117d9e86f5138a5e524f66dc7ce3906ac967dcee10ab5978532c177bd323b6cbcf84f8858dde81ccd6cfc9b0840d1a4d72be",
+        "dest": "pnpm",
+        "only-arches": [
+            "x86_64"
+        ]
     },
     {
-        "type": "shell",
-        "commands": [
-            "chmod +x *",
-            "ln -s ./pnpm.mjs ./pnpm"
-        ],
-        "dest": "pnpm/bin"
+        "type": "archive",
+        "url": "https://registry.npmjs.org/@pnpm/exe.linux-arm64/-/exe.linux-arm64-12.4.2.tgz",
+        "sha512": "d9d4a20d7ca1c7e4531ec7b0c5ec7c7ff8d58ea417589da8a30e240951c459d64a781a60331bd9e9f1e44c050125782a85b2880c7bee3656413fb8097d458be4",
+        "dest": "pnpm",
+        "only-arches": [
+            "aarch64"
+        ]
     }
 ]
