@@ -48,7 +48,7 @@ modules:
         XDG_CACHE_HOME: /run/build/fluxer-canary/flatpak-node/cache
         ELECTRON_SKIP_BINARY_DOWNLOAD: "true"
         npm_config_nodedir: /usr/lib/sdk/node24
-        npm_config_store_dir: /run/build/fluxer-canary/flatpak-node/pnpm-store
+        pnpm_config_store_dir: /run/build/fluxer-canary/flatpak-node/pnpm-store
         npm_config_offline: "true"
     build-commands:
       - pnpm install --ignore-scripts --frozen-lockfile --offline --force
